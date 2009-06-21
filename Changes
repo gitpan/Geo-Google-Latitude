@@ -1,0 +1,7 @@
+Revision history for Perl module Geo::Google::Latitude
+
+0.01 2009-06-21T05:25:07Z
+  - original version; created by ExtUtils::ModuleMaker 0.51
+0.02 2009-06-21T07:12:00Z
+  - Cache badge->point
+  - added script example
