@@ -4,7 +4,7 @@ use warnings;
 use base qw{Geo::Google::Latitude::Base};
 use GPS::Point;
 
-our $VERSION='0.02';
+our $VERSION='0.03';
 
 =head1 NAME
 
@@ -33,8 +33,8 @@ sub point {
   my $self=shift;
   unless (defined($self->{"point"})) {
     #Fortunately all units match between APIs
-    my $lat=$self->{"features"}->[0]->{"geometry"}->{"coordinates"}->[0];
-    my $lon=$self->{"features"}->[0]->{"geometry"}->{"coordinates"}->[1];
+    my $lat=$self->{"features"}->[0]->{"geometry"}->{"coordinates"}->[1];
+    my $lon=$self->{"features"}->[0]->{"geometry"}->{"coordinates"}->[0];
     my $time=$self->{"features"}->[0]->{"properties"}->{"timeStamp"};
     my $eh=$self->{"features"}->[0]->{"properties"}->{"accuracyInMeters"};
     $self->{"point"}=GPS::Point->new(lat=>$lat, time=>$time,
