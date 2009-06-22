@@ -7,3 +7,6 @@ Revision history for Perl module Geo::Google::Latitude
   - added script example
 0.03 2009-06-21T07:23:00Z
   - lat and lon swaped
+0.04 2009-06-22T04:47:00Z
+  - Move from LWP::Simple to LWP::UserAgent for agent method
+  - Documentation

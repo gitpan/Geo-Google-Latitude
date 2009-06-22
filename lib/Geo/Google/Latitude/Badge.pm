@@ -4,11 +4,11 @@ use warnings;
 use base qw{Geo::Google::Latitude::Base};
 use GPS::Point;
 
-our $VERSION='0.03';
+our $VERSION='0.04';
 
 =head1 NAME
 
-Geo::Google::Latitude::Badge - Retrieves a Google Public Location Badge
+Geo::Google::Latitude::Badge - Retrieves a Google Latitude Public Location Badge
 
 =head1 SYNOPSIS
 
@@ -70,7 +70,7 @@ LICENSE file included with this module.
 
 =head1 SEE ALSO
 
-L<http://www.ruwenzori.net/code/latitude2brightkite/>
+L<http://www.ruwenzori.net/code/latitude2brightkite/>, L<GPS::Point>, L<Geo::Google::Latitude>
 
 =cut
 

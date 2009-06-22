@@ -7,6 +7,7 @@ Makefile.PL
 MANIFEST
 README
 scripts/perl-Geo-Google-Latitude-example-1.pl
+scripts/perl-Geo-Google-Latitude-example-2.pl
 t/001_load.t
 t/002_get.t
 Todo
