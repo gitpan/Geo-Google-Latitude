@@ -4,7 +4,7 @@ use warnings;
 use base qw{Geo::Google::Latitude::Base};
 use GPS::Point;
 
-our $VERSION='0.04';
+our $VERSION='0.05';
 
 =head1 NAME
 
@@ -23,6 +23,136 @@ Geo::Google::Latitude::Badge - Retrieves a Google Latitude Public Location Badge
 
 =head1 METHODS
 
+=head2 id
+
+=cut
+
+sub id {
+  my $self=shift;
+  return $self->{"properties"}->{"id"};
+}
+
+=head2 lat
+
+=cut
+
+sub lat {
+  my $self=shift;
+  return $self->{"geometry"}->{"coordinates"}->[1];
+}
+
+=head2 lon
+
+=cut
+
+sub lon {
+  my $self=shift;
+  return $self->{"geometry"}->{"coordinates"}->[0];
+}
+
+=head2 timeStamp
+
+=cut
+
+sub timeStamp {
+  my $self=shift;
+  return $self->{"properties"}->{"timeStamp"};
+}
+
+=head2 accuracyInMeters
+
+=cut
+
+sub accuracyInMeters {
+  my $self=shift;
+  return $self->{"properties"}->{"accuracyInMeters"};
+}
+
+=head2 reverseGeocode
+
+=cut
+
+sub reverseGeocode {
+  my $self=shift;
+  return $self->{"properties"}->{"reverseGeocode"};
+}
+
+=head2 photoImg
+
+Returns the <img /> tag for the photo.
+
+=cut
+
+sub photoImg {
+  my $self=shift;
+  return sprintf(qq{<img src="%s" height="%s" width="%s" alt="%s"/>}, $self->photoUrl, $self->photoHeight, $self->photoWidth, $self->id);
+}
+
+=head2 photoUrl
+
+=cut
+
+sub photoUrl {
+  my $self=shift;
+  return $self->{"properties"}->{"photoUrl"};
+}
+
+=head2 photoWidth
+
+=cut
+
+sub photoWidth {
+  my $self=shift;
+  return $self->{"properties"}->{"photoWidth"};
+}
+
+=head2 photoHeight
+
+=cut
+
+sub photoHeight {
+  my $self=shift;
+  return $self->{"properties"}->{"photoHeight"};
+}
+
+=head2 placardImg
+
+Returns the <img /> tag for the placard.
+
+=cut
+
+sub placardImg {
+  my $self=shift;
+  return sprintf(qq{<img src="%s" height="%s" width="%s" alt="%s"/>}, $self->placardUrl, $self->placardHeight, $self->placardWidth, $self->reverseGeocode);
+}
+
+=head2 placardUrl
+
+=cut
+
+sub placardUrl {
+  my $self=shift;
+  return $self->{"properties"}->{"placardUrl"};
+}
+
+=head2 placardWidth
+
+=cut
+
+sub placardWidth {
+  my $self=shift;
+  return $self->{"properties"}->{"placardWidth"};
+}
+
+=head2 placardHeight
+
+=cut
+
+sub placardHeight {
+  my $self=shift;
+  return $self->{"properties"}->{"placardHeight"};
+}
+
 =head2 point
 
 Returns a GPS::Point object
@@ -33,12 +163,10 @@ sub point {
   my $self=shift;
   unless (defined($self->{"point"})) {
     #Fortunately all units match between APIs
-    my $lat=$self->{"features"}->[0]->{"geometry"}->{"coordinates"}->[1];
-    my $lon=$self->{"features"}->[0]->{"geometry"}->{"coordinates"}->[0];
-    my $time=$self->{"features"}->[0]->{"properties"}->{"timeStamp"};
-    my $eh=$self->{"features"}->[0]->{"properties"}->{"accuracyInMeters"};
-    $self->{"point"}=GPS::Point->new(lat=>$lat, time=>$time,
-                                     lon=>$lon, ehorizontal=>$eh);
+    $self->{"point"}=GPS::Point->new(lat=>$self->lat,
+                                     lon=>$self->lon,
+                                     time=>$self->timeStamp,
+                                     ehorizontal=>$self->accuracyInMeters);
   }
   return $self->{"point"};
 }
@@ -70,7 +198,7 @@ LICENSE file included with this module.
 
 =head1 SEE ALSO
 
-L<http://www.ruwenzori.net/code/latitude2brightkite/>, L<GPS::Point>, L<Geo::Google::Latitude>
+L<http://www.ruwenzori.net/code/latitude2brightkite/>, L<GPS::Point>, L<Geo::Google::Latitude>, L<Geo::GoogleEarth::Document>
 
 =cut
 

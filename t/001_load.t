@@ -18,4 +18,3 @@ isa_ok ($object, 'Geo::Google::Latitude::Badge');
 
 $object = Geo::Google::Latitude->new ();
 isa_ok ($object, 'Geo::Google::Latitude');
-

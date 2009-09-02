@@ -10,3 +10,9 @@ Revision history for Perl module Geo::Google::Latitude
 0.04 2009-06-22T04:47:00Z
   - Move from LWP::Simple to LWP::UserAgent for agent method
   - Documentation
+0.05 2009-09-02T03:16:00Z
+  - Added getList method
+  - get method is wrapper around getList
+  - Badge now only has one features worth of data.
+  - all Badge methods updated
+  - added many new Badge methods

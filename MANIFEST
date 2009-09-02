@@ -6,9 +6,13 @@ LICENSE
 Makefile.PL
 MANIFEST
 README
-scripts/perl-Geo-Google-Latitude-example-1.pl
-scripts/perl-Geo-Google-Latitude-example-2.pl
 t/001_load.t
 t/002_get.t
 Todo
+scripts/Geo-Google-Latitude-database-GoogleEarth.cgi
+scripts/Geo-Google-Latitude-database.pl
+scripts/Geo-Google-Latitude-database.sh
+scripts/Geo-Google-Latitude-example-datetime.pl
+scripts/Geo-Google-Latitude-example-loop.pl
+scripts/Geo-Google-Latitude-example-simple.pl
 META.yml                                 Module meta-data (added by MakeMaker)

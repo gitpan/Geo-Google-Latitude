@@ -1,15 +1,14 @@
 #!/usr/bin/perl
 
-=head2 NAME
+=head1 NAME
 
-perl-Geo-Google-Latitude-example-1.pl - Geo::Google::Latitude Example 2
+Geo-Google-Latitude-example-datetime.pl - Geo::Google::Latitude Simple Example With DateTime
 
 =cut
 
 use strict;
 use warnings;
 use Geo::Google::Latitude;
-use Data::Dumper;
 
 my $gl=Geo::Google::Latitude->new;
 my $id=shift || "7832225593622256926";
