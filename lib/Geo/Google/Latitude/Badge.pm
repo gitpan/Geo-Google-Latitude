@@ -32,6 +32,28 @@ sub id {
   return $self->{"properties"}->{"id"};
 }
 
+=head2 error
+
+Returns if there was an HTTP error
+
+=cut
+
+sub error {
+  my $self=shift;
+  return $self->{"error"};
+}
+
+=head2 status
+
+Return the HTTP status line
+
+=cut
+
+sub status {
+  my $self=shift;
+  return $self->{"status"};
+}
+
 =head2 lat
 
 =cut

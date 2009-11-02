@@ -33,22 +33,24 @@ my $first=1;
 
 while ($first or sleep 60) {
   $first=0;
-  foreach my $id (keys %time) {
-    my $badge=$gl->get($id);
+  my @badge=$gl->getList(keys %time);
+  foreach my $badge (@badge) {
+    next unless defined($badge);
+    next if $badge->error; #VERSION =>0.06
     next unless defined($badge->point->time) and $badge->point->time > 0;
-    if ($badge->point->time != $time{$id}) {
-      print join("|", DateTime->now, 
-                      $id,
-                      $badge->point->datetime,
-                      $badge->point->latlon,
-                      $badge->point->ehorizontal), "\n"
-        if $debug;
-      $dba->execute(&insert, $id,
+    print join("|", DateTime->now, 
+                    $badge->id,
+                    $badge->point->datetime,
+                    $badge->point->latlon,
+                    $badge->point->ehorizontal), "\n"
+      if $debug;
+    if ($badge->point->time != $time{$badge->id}) {
+      $dba->execute(&insert, $badge->id,
                              $badge->point->time,
                              $badge->point->lat,
                              $badge->point->lon,
                              $badge->point->ehorizontal);
-      $time{$id}=$badge->point->time;
+      $time{$badge->id}=$badge->point->time;
     }
   }
 }
@@ -86,4 +88,10 @@ CREATE TABLE badge_track (
   accuracyInMeters double default NULL,
   PRIMARY KEY  (track_id),
   UNIQUE KEY ak1_badge_track (user_id,timeStamp)
+);
+
+CREATE TABLE  user (
+  user_id varchar(50) NOT NULL,
+  user_label varchar(50) NOT NULL,
+  PRIMARY KEY  (user_id)
 );

@@ -7,7 +7,7 @@ use URI qw{};
 use LWP::UserAgent qw{};
 use JSON::XS qw{};
 
-our $VERSION='0.05';
+our $VERSION='0.06';
 our $PACKAGE=__PACKAGE__;
 
 =head1 NAME
@@ -74,13 +74,25 @@ sub getList {
   $ua->agent("$PACKAGE/$VERSION ");
   $ua->env_proxy;
   my $response=$ua->get($uri);
-  my $content=$response->is_success ? $response->decoded_content : undef;
-  #my $content=LWP::Simple::get($uri); 
-  my $data=JSON::XS->new->pretty->allow_nonref->decode($content);
-  die("Error: Expected JSON to parse as HASH") unless ref($data) eq "HASH";
   my @badge=();
-  foreach my $feature (@{$data->{"features"}}) {
-    push @badge, Geo::Google::Latitude::Badge->new(%$feature);
+  if ($response->is_success) {
+    my $content=$response->decoded_content;
+    my $data=JSON::XS->new->pretty->allow_nonref->decode($content);
+    die("Error: Expected JSON to parse as HASH") unless ref($data) eq "HASH";
+    foreach my $feature (@{$data->{"features"}}) {
+      push @badge, Geo::Google::Latitude::Badge->new(
+                     error=>$response->is_error,
+                     status=>$response->status_line,
+                     %$feature);
+    }
+  } else {
+    foreach my $id (@id) {
+      my $feature={properties=>{id=>$id}};
+      push @badge, Geo::Google::Latitude::Badge->new(
+                     error=>$response->is_error,
+                     status=>$response->status_line,
+                     %$feature);
+    }
   }
   return wantarray ? @badge : \@badge;
 }

@@ -2,7 +2,7 @@
 
 # t/001_load.t - check module loading and create testing directory
 
-use Test::More tests => 13;
+use Test::More tests => 15;
 
 BEGIN { use_ok( 'Geo::Google::Latitude' ); }
 
@@ -11,8 +11,9 @@ isa_ok ($gl, 'Geo::Google::Latitude');
 
 my $id="7832225593622256926";
 my $badge=$gl->get($id);
+ok(!$badge->error, "HTTP error");
+is($badge->status, "200 OK", "HTTP status");
 isa_ok ($badge, 'Geo::Google::Latitude::Badge');
-
 isa_ok ($badge->point, 'GPS::Point');
 
 is($badge->id, '7832225593622256926', '$badge->id');

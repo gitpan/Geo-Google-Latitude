@@ -44,12 +44,12 @@ if ($cgi->param("user")) {
     } 
   }
 } else {
-  foreach my $user ($dba->sqlarray(&users_sql)) {
+  foreach my $user ($dba->sqlarrayhash(&users_sql)) {
     $document->NetworkLink(
-                   name=>"User: $user",
+                   name=>sprintf("User: %s", $user->{"label"}),
                    open=>1,
                    url=>sprintf("%s?user=%s",
-                          $script, $user));
+                          $script, $user->{"id"}));
   }
 }
 print $cgi->header('text/xml'),
@@ -57,9 +57,12 @@ print $cgi->header('text/xml'),
 
 sub users_sql {
   return qq{
-            SELECT DISTINCT user_id
-              FROM badge_track
-          ORDER BY user_id
+            SELECT DISTINCT
+                   badge_track.user_id AS "id", 
+                   COALESCE(user.user_label, badge_track.user_id) AS "label"
+              FROM badge_track LEFT JOIN user
+                     ON badge_track.user_id = user.user_id
+          ORDER BY COALESCE(user.user_label, badge_track.user_id);
            };
 }
 

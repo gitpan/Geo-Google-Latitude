@@ -16,3 +16,5 @@ Revision history for Perl module Geo::Google::Latitude
   - Badge now only has one features worth of data.
   - all Badge methods updated
   - added many new Badge methods
+0.06 2009-11-1
+  - Promoted HTTP status and error to Badge object.
