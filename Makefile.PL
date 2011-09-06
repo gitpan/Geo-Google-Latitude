@@ -1,17 +1,15 @@
 use ExtUtils::MakeMaker;
 WriteMakefile(
     NAME         => 'Geo::Google::Latitude',
-    VERSION_FROM => 'lib/Geo/Google/Latitude.pm', # finds \$VERSION
+    VERSION_FROM => 'lib/Geo/Google/Latitude.pm',
     AUTHOR       => 'Michael R. Davis (domain=>michaelrdavis,tld=>com,account=>perl)',
-    ABSTRACT     => 'Retrieves a Google Latitude Public Location Badge',
+    ABSTRACT_FROM=> 'lib/Geo/Google/Latitude.pm',
     PREREQ_PM    => {
-                      strict           => 0,
-                      warnings         => 0,
-                      base             => 0,
                      'Test::Simple'    => 0.44,
-                     'GPS::Point'      => 0,
+                     'Package::New'    => 0,
                      'URI'             => 0,
                      'LWP::UserAgent'  => 0, #libwww-perl
                      'JSON::XS'        => 0,
+                     'GPS::Point'      => 0,
                     },
 );

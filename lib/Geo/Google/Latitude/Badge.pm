@@ -1,7 +1,7 @@
 package Geo::Google::Latitude::Badge;
 use strict;
 use warnings;
-use base qw{Geo::Google::Latitude::Base};
+use base qw{Package::New};
 use GPS::Point;
 
 our $VERSION='0.05';

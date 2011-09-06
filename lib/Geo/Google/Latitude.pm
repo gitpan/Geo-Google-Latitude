@@ -1,13 +1,13 @@
 package Geo::Google::Latitude;
 use strict;
 use warnings;
-use base qw{Geo::Google::Latitude::Base};
+use base qw{Package::New};
 use Geo::Google::Latitude::Badge;
 use URI qw{};
 use LWP::UserAgent qw{};
 use JSON::XS qw{};
 
-our $VERSION='0.06';
+our $VERSION='0.07';
 our $PACKAGE=__PACKAGE__;
 
 =head1 NAME
@@ -97,11 +97,17 @@ sub getList {
   return wantarray ? @badge : \@badge;
 }
 
+=head2 url
+
+Returns the URL for the Goole Latitude API
+
+=cut
+
 sub url {
   my $self=shift;
-  unless (defined($self->{"url"})) {
-    $self->{"url"}="http://www.google.com/latitude/apps/badge/api";
-  }
+  $self->{"url"}=shift if @_;
+  $self->{"url"}="http://www.google.com/latitude/apps/badge/api"
+    unless defined $self->{"url"};
   return $self->{"url"};
 }
 
@@ -119,20 +125,20 @@ Try Geo Perl.
 
 =head1 AUTHOR
 
-    Michael R. Davis
-    CPAN ID: MRDVT
-    STOP, LLC
-    domain=>michaelrdavis,tld=>com,account=>perl
-    http://www.stopllc.com/
+  Michael R. Davis
+  CPAN ID: MRDVT
+  STOP, LLC
+  domain=>michaelrdavis,tld=>com,account=>perl
+  http://www.stopllc.com/
 
 =head1 COPYRIGHT
 
 This program is free software licensed under the...
 
-	The BSD License
+  The General Public License (GPL)
+  Version 2, June 1991
 
-The full text of the license can be found in the
-LICENSE file included with this module.
+The full text of the license can be found in the LICENSE file included with this module.
 
 =head1 SEE ALSO
 

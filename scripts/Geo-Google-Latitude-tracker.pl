@@ -1,69 +1,73 @@
 #!/usr/bin/perl
+use strict;
+use warnings;
+use Sys::RunAlways;
+use Geo::Google::Latitude 0.06; #badge->error method
+use DBIx::Array::Connect;
+use DateTime;
 
 =head1 NAME
 
-Geo-Goole-Latitude-database.pl - Geo::Google::Latitude MySQL Example
+Geo-Google-Latitude-tracker.pl - Geo::Google::Latitude Database Tracker
+
+=head2 SYNTAX
+
+  Geo-Google-Latitude-tracker.pl [user_id] [user_id ...]
 
 =cut
 
-use strict;
-use warnings;
-use Geo::Google::Latitude qw{};
-use DBIx::Array qw{};
-use DateTime qw{};
-use File::Basename qw{basename};
-use File::Slurp qw{write_file};
-
-my $basename=basename($0, ".pl");
-my $pidfile="/var/run/$basename.pid";
-write_file($pidfile, "$$\n") ;
-
-my $debug=shift||0;
+my $debug=0;
 my $gl=Geo::Google::Latitude->new;
-my $dba = DBIx::Array->new();
-my $connection="DBI:mysql:database=latitude;host=localhost";
-my $user="google";
-my $pass="latitude";
-my %opt=(AutoCommit=>1, RaiseError=>1);
-$dba->connect($connection, $user, $pass, \%opt);
+my $sdb=DBIx::Array::Connect->new->connect("latitude");
 
-my %time=$dba->sqlarray(&time_init);
+my %time=$sdb->sqlarray(&time_sql);
+if ($debug) {
+  print(join("|", $_ => $time{$_}), "\n") foreach sort keys %time;
+}
 $time{$_}=0 foreach @ARGV;
 my $first=1;
 
-while ($first or sleep 60) {
+while ($first or sleep 40) {
   $first=0;
   my @badge=$gl->getList(keys %time);
   foreach my $badge (@badge) {
     next unless defined($badge);
-    next if $badge->error; #VERSION =>0.06
-    next unless defined($badge->point->time) and $badge->point->time > 0;
+    next if $badge->error;
+    next unless defined($badge->point);
+    next unless defined($badge->point->time);
+    next unless $badge->point->time > 0;
     print join("|", DateTime->now, 
                     $badge->id,
                     $badge->point->datetime,
+                    $badge->point->time,
                     $badge->point->latlon,
                     $badge->point->ehorizontal), "\n"
       if $debug;
     if ($badge->point->time != $time{$badge->id}) {
-      $dba->execute(&insert, $badge->id,
-                             $badge->point->time,
-                             $badge->point->lat,
-                             $badge->point->lon,
-                             $badge->point->ehorizontal);
+      $sdb->insert(&insert_sql, $badge->id,
+                            $badge->point->time,
+                            $badge->point->lat,
+                            $badge->point->lon,
+                            $badge->point->ehorizontal);
       $time{$badge->id}=$badge->point->time;
     }
   }
 }
 
-sub insert {
+sub insert_sql {
   return q{
-           INSERT INTO badge_track (user_id, timeStamp,
-                                    lat, lon, accuracyInMeters)
-                            VALUES (?, ?, ?, ?, ?)
+           INSERT
+             INTO badge_track
+                ( user_id
+                , timeStamp
+                , lat
+                , lon
+                , accuracyInMeters)
+           VALUES (?, ?, ?, ?, ?)
           };
 }
 
-sub time_init {
+sub time_sql {
   return q{
            SELECT user_id, MAX(timeStamp)
              FROM badge_track

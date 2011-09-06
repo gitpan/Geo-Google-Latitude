@@ -1,20 +1,38 @@
 Revision history for Perl module Geo::Google::Latitude
 
-0.01 2009-06-21T05:25:07Z
-  - original version; created by ExtUtils::ModuleMaker 0.51
-0.02 2009-06-21T07:12:00Z
-  - Cache badge->point
-  - added script example
-0.03 2009-06-21T07:23:00Z
-  - lat and lon swaped
-0.04 2009-06-22T04:47:00Z
-  - Move from LWP::Simple to LWP::UserAgent for agent method
-  - Documentation
-0.05 2009-09-02T03:16:00Z
-  - Added getList method
-  - get method is wrapper around getList
-  - Badge now only has one features worth of data.
-  - all Badge methods updated
-  - added many new Badge methods
-0.06 2009-11-1
+0.07 2011-09-06
+  - Changed License from BSD to GPLv2
+  - Moved production latitude database
+  - Dropped Base.pm to use Package::New
+  - Rewrote Geo-Google-Latitude-database.pl
+    - Renamed to Geo-Google-Latitude-tracker.pl
+    - Using DBIx::Array::Connect and Sys::RunAlways
+  - Added spec to distribution
+
+0.06-2 2011-08-25
+  - NOTE: Last version licensed under BSD
+  - Updated Geo-Google-Latitude-database-GoogleEarth.cgi to use Geo::GoogleEarth::Pluggable lib
+
+0.06 2009-11-01
   - Promoted HTTP status and error to Badge object.
+
+0.05 2009-09-02
+  - Added getList method
+  - Updated get method to be wrapper around getList
+  - Badge now only has one features worth of data.
+  - Updated all Badge methods
+  - Added many new Badge methods
+
+0.04 2009-06-22
+  - Moved from LWP::Simple to LWP::UserAgent for agent method
+  - Updated Documentation
+
+0.03 2009-06-21
+  - Fixed swaped lat and lon
+
+0.02 2009-06-21
+  - Cache badge->point
+  - Added script example
+
+0.01 2009-06-21
+  - original version; created by ExtUtils::ModuleMaker 0.51

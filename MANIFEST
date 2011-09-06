@@ -1,7 +1,6 @@
 Changes
 lib/Geo/Google/Latitude.pm
 lib/Geo/Google/Latitude/Badge.pm
-lib/Geo/Google/Latitude/Base.pm
 LICENSE
 Makefile.PL
 MANIFEST
@@ -10,9 +9,9 @@ t/001_load.t
 t/002_get.t
 Todo
 scripts/Geo-Google-Latitude-database-GoogleEarth.cgi
-scripts/Geo-Google-Latitude-database.pl
-scripts/Geo-Google-Latitude-database.sh
 scripts/Geo-Google-Latitude-example-datetime.pl
 scripts/Geo-Google-Latitude-example-loop.pl
 scripts/Geo-Google-Latitude-example-simple.pl
+scripts/Geo-Google-Latitude-tracker.pl
+perl-Geo-Google-Latitude.spec
 META.yml                                 Module meta-data (added by MakeMaker)

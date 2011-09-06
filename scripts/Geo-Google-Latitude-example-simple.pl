@@ -11,12 +11,9 @@ use warnings;
 use Geo::Google::Latitude;
 
 my $gl=Geo::Google::Latitude->new;
-my $id="7832225593622256926";
+my $id=shift || "7832225593622256926";
 my $badge=$gl->get($id);
 
 die(sprintf("HTTP Error: %s", $badge->status)) if $badge->error;
 
 printf "Lat: %s, Lon %s\n", $badge->point->latlon;
-
-#use Data::Dumper;
-#print Dumper($badge);
