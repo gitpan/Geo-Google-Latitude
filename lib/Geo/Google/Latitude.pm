@@ -7,12 +7,12 @@ use URI qw{};
 use LWP::UserAgent qw{};
 use JSON::XS qw{};
 
-our $VERSION='0.07';
+our $VERSION='0.08';
 our $PACKAGE=__PACKAGE__;
 
 =head1 NAME
 
-Geo::Google::Latitude - Retrieves a Google Latitude Public Location Badge
+Geo::Google::Latitude - Google Latitude Public Location Badge Interface
 
 =head1 SYNOPSIS
 
@@ -29,7 +29,11 @@ Perl Object Interface to the Google Latitude Public Location Badge.  In order to
 
 =head1 USAGE
 
-  use Geo::Google::Latitude;
+Enable Google Latitude on your mobile device.
+
+Determine your Google Latitude Public Location Badge Identification Number. L<https://www.google.com/latitude/b/0/apps>
+
+Then try a script
 
 =head1 CONSTRUCTOR
 
@@ -52,7 +56,8 @@ Fetches the Google Latitude Public Location Badge from google.com and returns a 
 
 sub get {
   my $self=shift;
-  return $self->getList(@_)->[0];
+  my $id=shift or die("Error: id required.");
+  return $self->getList($id)->[0];
 }
 
 =head2 getList
@@ -66,40 +71,51 @@ Returns a list of L<Geo::Google::Latitude::Badge> objects with just one HTTP req
 
 sub getList {
   my $self=shift;
-  my @id=@_;
-  die("Error: Expecting a list of Google Latitude User IDs.") unless @id;
-  my $uri=URI->new($self->url);
-  $uri->query_form(user=>join(",", @id), type=>"json");
-  my $ua=LWP::UserAgent->new;
-  $ua->agent("$PACKAGE/$VERSION ");
-  $ua->env_proxy;
-  my $response=$ua->get($uri);
+  my @id=@_; #We could clean the id.  But, do we want to?
   my @badge=();
-  if ($response->is_success) {
-    my $content=$response->decoded_content;
-    my $data=JSON::XS->new->pretty->allow_nonref->decode($content);
-    die("Error: Expected JSON to parse as HASH") unless ref($data) eq "HASH";
-    foreach my $feature (@{$data->{"features"}}) {
-      push @badge, Geo::Google::Latitude::Badge->new(
-                     error=>$response->is_error,
-                     status=>$response->status_line,
-                     %$feature);
+  if (@id) {
+    my $uri=URI->new($self->url);
+    $uri->query_form(user=>join(",", @id), type=>"json");
+    my $ua=LWP::UserAgent->new;
+    $ua->agent("$PACKAGE/$VERSION ");
+    $ua->env_proxy;
+    print "URL: $uri\n" if $self->{"debug"};
+    my $response=$ua->get($uri);
+    if ($response->is_success) {
+      my $content=$response->decoded_content;
+      print $content if $self->{"debug"};
+      my $data=JSON::XS->new->pretty->allow_nonref->decode($content);
+      die("Error: Expected JSON to parse as HASH") unless ref($data) eq "HASH";
+      @badge=@{$data->{"features"}};
+      foreach (@badge) {
+        $_->{"error"}  = $response->is_error;
+        $_->{"status"} = $response->status_line;
+      }
+    } else {
+      @badge=map {{
+                     properties => {id=>$_},
+                     error      => $response->is_error,
+                     status     => $response->status_line,
+                 }} @id;
     }
-  } else {
-    foreach my $id (@id) {
-      my $feature={properties=>{id=>$id}};
-      push @badge, Geo::Google::Latitude::Badge->new(
-                     error=>$response->is_error,
-                     status=>$response->status_line,
-                     %$feature);
+    my %badge=map {$_->{"properties"}->{"id"} => $_} @badge;
+    foreach (@id) {
+      next if exists $badge{$_}; #We already have a value
+      $badge{$_}={
+                   error=>1,
+                   status=>"Verify Google Latitude Public Location Badge Identification Number",
+                   properties=>{id=>$_},
+                 };
     }
+    $_=Geo::Google::Latitude::Badge->new(%$_) foreach (values %badge);
+    @badge=@badge{@id}; #we will have the same number of outs and ins
   }
   return wantarray ? @badge : \@badge;
 }
 
 =head2 url
 
-Returns the URL for the Goole Latitude API
+Returns the URL for the Google Latitude API
 
 =cut
 
@@ -117,11 +133,11 @@ The getList method has a limit as to the number of badges that can be returned. 
 
 =head1 BUGS
 
-Log and send to Geo Perl.
+Send email to author, geo-perl email list and log on RT.
 
 =head1 SUPPORT
 
-Try Geo Perl.
+DavisNetworks.com supports all Perl applications including this package.
 
 =head1 AUTHOR
 
@@ -142,7 +158,7 @@ The full text of the license can be found in the LICENSE file included with this
 
 =head1 SEE ALSO
 
-L<http://www.google.com/latitude/apps/badge>, L<http://www.ruwenzori.net/code/latitude2brightkite/>, L<LWP::Simple>, L<URI>, L<JSON::XS>, L<GPS::Point>, L<Geo::Google::Latitude::Badge>
+L<http://www.google.com/latitude/apps/badge>, L<http://www.ruwenzori.net/code/latitude2brightkite/>, L<LWP::UserAgent>, L<URI>, L<JSON::XS>
 
 =cut
 

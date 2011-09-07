@@ -1,7 +1,7 @@
 --- #YAML:1.0
 name:                Geo-Google-Latitude
-version:             0.07
-abstract:            Retrieves a Google Latitude Public Location Badge
+version:             0.08
+abstract:            Google Latitude Public Location Badge Interface
 license:             ~
 author:              
     - Michael R. Davis (domain=>michaelrdavis,tld=>com,account=>perl)

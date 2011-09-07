@@ -4,11 +4,11 @@ use warnings;
 use base qw{Package::New};
 use GPS::Point;
 
-our $VERSION='0.05';
+our $VERSION='0.08';
 
 =head1 NAME
 
-Geo::Google::Latitude::Badge - Retrieves a Google Latitude Public Location Badge
+Geo::Google::Latitude::Badge - Google Latitude Public Location Badge Object
 
 =head1 SYNOPSIS
 
@@ -177,7 +177,7 @@ sub placardHeight {
 
 =head2 point
 
-Returns a GPS::Point object
+Returns a L<GPS::Point> object
 
 =cut
 
@@ -195,32 +195,32 @@ sub point {
 
 =head1 BUGS
 
-Log and send to Geo Perl.
+Send email to author, geo-perl email list and log on RT.
 
 =head1 SUPPORT
 
-Try Geo Perl.
+DavisNetworks.com supports all Perl applications including this package.
 
 =head1 AUTHOR
 
-    Michael R. Davis
-    CPAN ID: MRDVT
-    STOP, LLC
-    domain=>michaelrdavis,tld=>com,account=>perl
-    http://www.stopllc.com/
+  Michael R. Davis
+  CPAN ID: MRDVT
+  STOP, LLC
+  domain=>michaelrdavis,tld=>com,account=>perl
+  http://www.stopllc.com/
 
 =head1 COPYRIGHT
 
 This program is free software licensed under the...
 
-	The BSD License
+  The General Public License (GPL)
+  Version 2, June 1991
 
-The full text of the license can be found in the
-LICENSE file included with this module.
+The full text of the license can be found in the LICENSE file included with this module.
 
 =head1 SEE ALSO
 
-L<http://www.ruwenzori.net/code/latitude2brightkite/>, L<GPS::Point>, L<Geo::Google::Latitude>, L<Geo::GoogleEarth::Document>
+L<http://www.ruwenzori.net/code/latitude2brightkite/>, L<GPS::Point>
 
 =cut
 

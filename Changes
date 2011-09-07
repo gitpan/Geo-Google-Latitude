@@ -1,5 +1,10 @@
 Revision history for Perl module Geo::Google::Latitude
 
+0.08 2011-09-07
+  - Renamed example scripts
+  - Moved getList tests into t/003_list.t
+  - Updated Documentation
+
 0.07 2011-09-06
   - Changed License from BSD to GPLv2
   - Moved production latitude database

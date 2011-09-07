@@ -8,7 +8,7 @@ use CGI::Carp qw(fatalsToBrowser);
 
 =head1 NAME
 
-Geo-Goole-Latitude-database-GoogleEarth.pl - Geo::Google::Latitude MySQL Example
+Geo-Google-Latitude-database-GoogleEarth.cgi - Geo::Google::Latitude to Geo::GoogleEarth::Pluggable Example
 
 =cut
 

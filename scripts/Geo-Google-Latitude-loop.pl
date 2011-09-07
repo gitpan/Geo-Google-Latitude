@@ -1,15 +1,15 @@
 #!/usr/bin/perl
-
-=head1 NAME
-
-perl-Geo-Google-Latitude-example-loop.pl - Geo::Google::Latitude Example Loop
-
-=cut
-
 use strict;
 use warnings;
 use Geo::Google::Latitude;
 use DateTime qw{};
+
+=head1 NAME
+
+Geo-Google-Latitude-loop.pl - Geo::Google::Latitude Loop Example
+
+=cut
+
 my $gl=Geo::Google::Latitude->new;
 my $id=shift || "7832225593622256926";
 print "Google Latitude User ID: $id\n";

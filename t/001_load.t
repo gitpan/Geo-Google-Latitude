@@ -1,16 +1,20 @@
 # -*- perl -*-
-
 use strict;
 use warnings;
-use Test::More tests => 4;
+use Test::More tests => 9;
 
 BEGIN { use_ok( 'Geo::Google::Latitude::Badge' ); }
 BEGIN { use_ok( 'Geo::Google::Latitude' ); }
 
-my $object;
+my $gl;
 
-$object = Geo::Google::Latitude::Badge->new ();
-isa_ok ($object, 'Geo::Google::Latitude::Badge');
+$gl=Geo::Google::Latitude->new;
+isa_ok($gl, 'Geo::Google::Latitude');
+can_ok($gl, qw{new initialize});
+can_ok($gl, qw{get getList});
+can_ok($gl, qw{url});
 
-$object = Geo::Google::Latitude->new ();
-isa_ok ($object, 'Geo::Google::Latitude');
+$gl=Geo::Google::Latitude::Badge->new;
+isa_ok($gl, 'Geo::Google::Latitude::Badge');
+can_ok($gl, qw{new initialize});
+can_ok($gl, qw{id error status lat lon});

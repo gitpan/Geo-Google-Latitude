@@ -7,11 +7,11 @@ MANIFEST
 README
 t/001_load.t
 t/002_get.t
+t/003_list.t
 Todo
 scripts/Geo-Google-Latitude-database-GoogleEarth.cgi
-scripts/Geo-Google-Latitude-example-datetime.pl
-scripts/Geo-Google-Latitude-example-loop.pl
-scripts/Geo-Google-Latitude-example-simple.pl
+scripts/Geo-Google-Latitude-loop.pl
+scripts/Geo-Google-Latitude-get.pl
 scripts/Geo-Google-Latitude-tracker.pl
 perl-Geo-Google-Latitude.spec
 META.yml                                 Module meta-data (added by MakeMaker)

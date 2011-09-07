@@ -1,12 +1,12 @@
 # -*- perl -*-
 use strict;
 use warnings;
-use Test::More tests => 15;
+use Test::More tests => 12;
 
 BEGIN { use_ok( 'Geo::Google::Latitude' ); }
 
-my $gl = Geo::Google::Latitude->new ();
-isa_ok ($gl, 'Geo::Google::Latitude');
+my $gl=Geo::Google::Latitude->new;
+isa_ok($gl, 'Geo::Google::Latitude');
 
 my $id="7832225593622256926";
 my $badge=$gl->get($id);
@@ -15,16 +15,9 @@ is($badge->status, "200 OK", "HTTP status");
 isa_ok ($badge, 'Geo::Google::Latitude::Badge');
 isa_ok ($badge->point, 'GPS::Point');
 
-is($badge->id, '7832225593622256926', '$badge->id');
+is($badge->id, $id, '$badge->id');
 is($badge->lat, $badge->point->lat, '$badge->lat');
 is($badge->lon, $badge->point->lon, '$badge->lon');
 is($badge->lon, $badge->point->lon, '$badge->lon');
-#is($badge->photoImg, '<img />', '$badge->photoImg');
-#is($badge->placardImg, '<img />', '$badge->photoImg');
-
-my $ref=$gl->getList($id, $id, $id);
-isa_ok($ref, 'ARRAY', '$gl->getList');
-is(@$ref, 3, '$gl->getList length');
-isa_ok ($ref->[0], 'Geo::Google::Latitude::Badge');
-isa_ok ($ref->[1], 'Geo::Google::Latitude::Badge');
-isa_ok ($ref->[2], 'Geo::Google::Latitude::Badge');
+like($badge->photoImg, qr{<img[^<>]*>}, '$badge->photoImg');
+like($badge->placardImg, qr{<img[^<>]*>}, '$badge->photoImg');

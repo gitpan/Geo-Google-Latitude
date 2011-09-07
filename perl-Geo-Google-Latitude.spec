@@ -1,7 +1,7 @@
 Name:           perl-Geo-Google-Latitude
-Version:        0.07
-Release:        1%{?dist}
-Summary:        Retrieves a Google Latitude Public Location Badge
+Version:        0.08
+Release:        2%{?dist}
+Summary:        Google Latitude Public Location Badge Interface
 License:        GPLv2
 Group:          Development/Libraries
 URL:            http://search.cpan.org/dist/Geo-Google-Latitude/
